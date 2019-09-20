@@ -1,0 +1,11 @@
+module.exports = {
+	server : {
+		host : '0.0.0.0',
+		port : 8443,
+		ssl  : {
+			key  : '/etc/ssl/private/localhost.pem',
+			cert : '/etc/ssl/certs/localhost.pem'
+		}
+	},
+	appId : 'https://127.0.0.1.nip.io:8443'
+};

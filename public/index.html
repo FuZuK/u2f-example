@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<title>U2F Example</title>
+		<script src="/js/config.js"></script>
+		<script src="/js/jquery-3.4.1.min.js"></script>
+		<script src="/js/u2f-api.js"></script>
+	</head>
+	<body>
+		<h1>U2F with Node.js</h1>
+		<button id="register">Start Registration</button>
+		<button id="login">Start Login</button>
+
+		<script>
+			$("#register").click(() => {
+				if(window.u2f && window.u2f.register) {
+					$.get(window.__CONFIG__.URL + "/register", result => {
+						console.log(result);
+						window.u2f.register(result.appId, [result], [], response => {
+							$.post(window.__CONFIG__.URL + "/register", { registerResponse: response }, result => {
+								console.log(result);
+							});
+							console.log(response);
+						});
+					});
+				} else {
+					document.write("<p>U2F is not supported</p>");
+				}
+			});
+
+			$("#login").click(() => {
+				if(window.u2f && window.u2f.sign) {
+					$.get(window.__CONFIG__.URL + "/login", result => {
+						console.log(result);
+						window.u2f.sign(result.appId, result.challenge, [result], response => {
+							$.post(window.__CONFIG__.URL + "/login", { loginResponse: response }, result => {
+								console.log(result);
+							});
+							console.log(response);
+						});
+					});
+				} else {
+					document.write("<p>U2F is not supported</p>");
+				}
+			});
+		</script>
+	</body>
+</html>
